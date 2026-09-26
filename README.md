@@ -26,7 +26,7 @@ answers the practical question, **"will *my* tool work?"**, with evidence instea
 Tried a tool? Open an issue with the tool, its version, your AI Server version and what happened. That's
 how an entry moves from 🟢 to ✅.
 
-## Latest protocol run (AI Server 2.2.5, `enginea/qwen3/8b`)
+## Latest protocol run (AI Server 2.2.5 development build — the Store release is 2.2.4 — with `enginea/qwen3/8b`)
 
 | Check | Result |
 | --- | --- |
