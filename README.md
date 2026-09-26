@@ -32,14 +32,15 @@ how an entry moves from 🟢 to ✅.
 | --- | --- |
 | Model discovery, chat, streaming (382 chunks) | ✅ |
 | Structured tool calls (`finish_reason: tool_calls`), tool-result round trip | ✅ |
-| JSON mode, embeddings (string and list input), OpenAI error envelope | ✅ |
+| JSON mode, embeddings (string and list input), OpenAI error envelope | ✅ (an unknown model now returns **404** instead of 503 in the next release) |
 | `tool_choice: "required"` | ❌ not yet enforced on the default local engine |
-| `stream_options.include_usage` | ❌ no usage chunk yet |
+| `stream_options.include_usage` | ❌ → **fixed for the next release** (final usage chunk before `[DONE]`) |
 | Embedding models listed in `/v1/models` | ❌ usable but not listed |
 | Responses API (`/v1/responses`) | ❌ not implemented, so use Chat Completions mode |
 | CORS for browser-only apps | ❌ by design, so use a same-origin proxy |
 
 These results are the AI Server team's own to-do list, and they're published so you can plan around them.
+Also fixed for the next release: model listing no longer counts against the Free-tier request allowance.
 
 ## Run the probe yourself
 
