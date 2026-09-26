@@ -1,0 +1,1303 @@
+{
+  "server_version": "2.2.5",
+  "model": "enginea/qwen3/8b",
+  "run_utc": "2026-09-26T20:53:14Z",
+  "checks": {
+    "models_list": {
+      "status": "pass",
+      "reason": "61 models"
+    },
+    "chat_basic": {
+      "status": "pass",
+      "reason": "ok"
+    },
+    "chat_stream": {
+      "status": "pass",
+      "reason": "382 content chunks"
+    },
+    "stream_usage": {
+      "status": "fail",
+      "reason": "no usage chunk with stream_options.include_usage"
+    },
+    "tools_auto": {
+      "status": "pass",
+      "reason": "structured call, finish_reason=tool_calls"
+    },
+    "tools_required": {
+      "status": "fail",
+      "reason": "tool_choice=required did not force a call"
+    },
+    "tool_roundtrip": {
+      "status": "pass",
+      "reason": "answer uses the tool result"
+    },
+    "json_mode": {
+      "status": "pass",
+      "reason": "valid JSON object"
+    },
+    "embeddings_string": {
+      "status": "pass",
+      "reason": "ok"
+    },
+    "embeddings_list": {
+      "status": "pass",
+      "reason": "2 vectors"
+    },
+    "embed_model_listed": {
+      "status": "fail",
+      "reason": "embedding model not listed in /v1/models"
+    },
+    "responses_api": {
+      "status": "fail",
+      "reason": "HTTP 404 (Responses API not available)"
+    },
+    "error_shape": {
+      "status": "pass",
+      "reason": "HTTP 503 with OpenAI error envelope"
+    },
+    "cors": {
+      "status": "fail",
+      "reason": "no CORS (HTTP 405); browser-only apps need a proxy"
+    }
+  },
+  "projects": [
+    {
+      "name": "OpenAI Python SDK",
+      "repo": "https://github.com/openai/openai-python",
+      "category": "SDK & frameworks",
+      "license": "Apache-2.0",
+      "config": "OpenAI(base_url=..., api_key=...)",
+      "needs": [
+        "models_list",
+        "chat_stream"
+      ],
+      "optional": [
+        "tools_auto",
+        "embeddings_list"
+      ],
+      "verification": "verified",
+      "evidence": "https://github.com/Software-Tailor/ai-server-dropin-recipes",
+      "status": "verified",
+      "failing": []
+    },
+    {
+      "name": "OpenAI .NET SDK",
+      "repo": "https://github.com/openai/openai-dotnet",
+      "category": "SDK & frameworks",
+      "license": "MIT",
+      "config": "new ChatClient(model, key, new OpenAIClientOptions { Endpoint = baseUrl })",
+      "needs": [
+        "tools_auto",
+        "tool_roundtrip"
+      ],
+      "optional": [],
+      "verification": "verified",
+      "evidence": "https://github.com/Software-Tailor/ai-server-security-agents",
+      "status": "verified",
+      "failing": []
+    },
+    {
+      "name": "LangChain / LangGraph",
+      "repo": "https://github.com/langchain-ai/langgraph",
+      "category": "SDK & frameworks",
+      "license": "MIT",
+      "config": "ChatOpenAI(model=..., base_url=..., api_key=...)",
+      "needs": [
+        "tools_auto",
+        "tool_roundtrip"
+      ],
+      "optional": [
+        "chat_stream",
+        "embeddings_list"
+      ],
+      "verification": "verified",
+      "evidence": "https://github.com/Software-Tailor/ai-server-agent-frameworks",
+      "status": "verified",
+      "failing": []
+    },
+    {
+      "name": "LlamaIndex",
+      "repo": "https://github.com/run-llama/llama_index",
+      "category": "SDK & frameworks",
+      "license": "MIT",
+      "config": "OpenAILike(api_base=..., is_chat_model=True, is_function_calling_model=True)",
+      "needs": [
+        "tools_auto",
+        "tool_roundtrip"
+      ],
+      "optional": [
+        "embeddings_list"
+      ],
+      "verification": "verified",
+      "evidence": "https://github.com/Software-Tailor/ai-server-agent-frameworks",
+      "status": "verified",
+      "failing": []
+    },
+    {
+      "name": "Pydantic AI",
+      "repo": "https://github.com/pydantic/pydantic-ai",
+      "category": "SDK & frameworks",
+      "license": "MIT",
+      "config": "OpenAIChatModel(model, provider=OpenAIProvider(base_url=..., api_key=...))",
+      "needs": [
+        "tools_auto",
+        "tool_roundtrip"
+      ],
+      "optional": [
+        "json_mode"
+      ],
+      "verification": "verified",
+      "evidence": "https://github.com/Software-Tailor/ai-server-agent-frameworks",
+      "status": "verified",
+      "failing": []
+    },
+    {
+      "name": "OpenAI Agents SDK",
+      "repo": "https://github.com/openai/openai-agents-python",
+      "category": "SDK & frameworks",
+      "license": "MIT",
+      "config": "OpenAIChatCompletionsModel + set_tracing_disabled(True)",
+      "needs": [
+        "tools_auto",
+        "tool_roundtrip"
+      ],
+      "optional": [],
+      "verification": "verified",
+      "evidence": "https://github.com/Software-Tailor/ai-server-agent-frameworks",
+      "note": "Use the Chat Completions model class; the default speaks the Responses API.",
+      "status": "verified",
+      "failing": []
+    },
+    {
+      "name": "smolagents",
+      "repo": "https://github.com/huggingface/smolagents",
+      "category": "SDK & frameworks",
+      "license": "Apache-2.0",
+      "config": "OpenAIServerModel(model_id=..., api_base=..., api_key=...)",
+      "needs": [
+        "tools_auto",
+        "tool_roundtrip",
+        "tools_required"
+      ],
+      "optional": [],
+      "verification": "verified",
+      "evidence": "https://github.com/Software-Tailor/ai-server-agent-frameworks",
+      "note": "Sends tool_choice=required; 4 of 5 runs passed until AI Server enforces it.",
+      "status": "verified",
+      "failing": [
+        "tools_required"
+      ]
+    },
+    {
+      "name": "Semantic Kernel",
+      "repo": "https://github.com/microsoft/semantic-kernel",
+      "category": "SDK & frameworks",
+      "license": "MIT",
+      "config": "AddOpenAIChatCompletion(modelId, endpoint WITHOUT /v1, apiKey)",
+      "needs": [
+        "tools_auto",
+        "tool_roundtrip"
+      ],
+      "optional": [],
+      "verification": "documented",
+      "evidence": "https://github.com/Software-Tailor/ai-server-dropin-recipes",
+      "status": "documented",
+      "failing": []
+    },
+    {
+      "name": "Microsoft Agent Framework",
+      "repo": "https://github.com/microsoft/agent-framework",
+      "category": "SDK & frameworks",
+      "license": "MIT",
+      "config": "OpenAI chat client with base URL",
+      "needs": [
+        "tools_auto",
+        "tool_roundtrip"
+      ],
+      "optional": [],
+      "verification": "protocol",
+      "status": "expected",
+      "failing": []
+    },
+    {
+      "name": "CrewAI",
+      "repo": "https://github.com/crewAIInc/crewAI",
+      "category": "SDK & frameworks",
+      "license": "MIT",
+      "config": "LLM(model='openai/<id>', base_url=..., api_key=...)",
+      "needs": [
+        "tools_auto",
+        "tool_roundtrip"
+      ],
+      "optional": [],
+      "verification": "protocol",
+      "status": "expected",
+      "failing": []
+    },
+    {
+      "name": "Agno",
+      "repo": "https://github.com/agno-agi/agno",
+      "category": "SDK & frameworks",
+      "license": "Apache-2.0",
+      "config": "OpenAILike(id=..., base_url=..., api_key=...)",
+      "needs": [
+        "tools_auto",
+        "tool_roundtrip"
+      ],
+      "optional": [],
+      "verification": "protocol",
+      "status": "expected",
+      "failing": []
+    },
+    {
+      "name": "CAMEL",
+      "repo": "https://github.com/camel-ai/camel",
+      "category": "SDK & frameworks",
+      "license": "Apache-2.0",
+      "config": "ModelFactory OPENAI_COMPATIBLE_MODEL with url=...",
+      "needs": [
+        "tools_auto",
+        "tool_roundtrip"
+      ],
+      "optional": [],
+      "verification": "protocol",
+      "status": "expected",
+      "failing": []
+    },
+    {
+      "name": "DSPy",
+      "repo": "https://github.com/stanfordnlp/dspy",
+      "category": "SDK & frameworks",
+      "license": "MIT",
+      "config": "dspy.LM('openai/<id>', api_base=..., api_key=...)",
+      "needs": [
+        "chat_basic"
+      ],
+      "optional": [],
+      "verification": "protocol",
+      "status": "expected",
+      "failing": []
+    },
+    {
+      "name": "Haystack",
+      "repo": "https://github.com/deepset-ai/haystack",
+      "category": "SDK & frameworks",
+      "license": "Apache-2.0",
+      "config": "OpenAIChatGenerator(api_base_url=...)",
+      "needs": [
+        "chat_basic"
+      ],
+      "optional": [
+        "embeddings_list"
+      ],
+      "verification": "protocol",
+      "status": "expected",
+      "failing": []
+    },
+    {
+      "name": "Instructor",
+      "repo": "https://github.com/567-labs/instructor",
+      "category": "SDK & frameworks",
+      "license": "MIT",
+      "config": "instructor.from_openai(OpenAI(base_url=...), mode=Mode.TOOLS)",
+      "needs": [
+        "tools_auto"
+      ],
+      "optional": [
+        "json_mode"
+      ],
+      "verification": "protocol",
+      "status": "expected",
+      "failing": []
+    },
+    {
+      "name": "Guidance",
+      "repo": "https://github.com/guidance-ai/guidance",
+      "category": "SDK & frameworks",
+      "license": "MIT",
+      "config": "OpenAI-compatible endpoint",
+      "needs": [
+        "chat_basic"
+      ],
+      "optional": [],
+      "verification": "protocol",
+      "status": "expected",
+      "failing": []
+    },
+    {
+      "name": "Mem0",
+      "repo": "https://github.com/mem0ai/mem0",
+      "category": "SDK & frameworks",
+      "license": "Apache-2.0",
+      "config": "openai_base_url in llm + embedder config",
+      "needs": [
+        "chat_basic",
+        "embeddings_list"
+      ],
+      "optional": [],
+      "verification": "protocol",
+      "status": "expected",
+      "failing": []
+    },
+    {
+      "name": "Letta",
+      "repo": "https://github.com/letta-ai/letta",
+      "category": "SDK & frameworks",
+      "license": "Apache-2.0",
+      "config": "OpenAI-compatible provider base URL",
+      "needs": [
+        "tools_auto",
+        "tool_roundtrip",
+        "embeddings_list"
+      ],
+      "optional": [],
+      "verification": "protocol",
+      "status": "expected",
+      "failing": []
+    },
+    {
+      "name": "Continue",
+      "repo": "https://github.com/continuedev/continue",
+      "category": "Coding assistants",
+      "license": "Apache-2.0",
+      "config": "config: provider openai, apiBase, apiKey",
+      "needs": [
+        "chat_stream"
+      ],
+      "optional": [
+        "tools_auto",
+        "embeddings_list"
+      ],
+      "verification": "documented",
+      "evidence": "https://github.com/Software-Tailor/ai-server-dropin-recipes",
+      "status": "documented",
+      "failing": []
+    },
+    {
+      "name": "aider",
+      "repo": "https://github.com/Aider-AI/aider",
+      "category": "Coding assistants",
+      "license": "Apache-2.0",
+      "config": "--openai-api-base ... --model openai/<id>",
+      "needs": [
+        "chat_stream"
+      ],
+      "optional": [],
+      "verification": "documented",
+      "evidence": "https://github.com/Software-Tailor/ai-server-dropin-recipes",
+      "status": "documented",
+      "failing": []
+    },
+    {
+      "name": "Cline",
+      "repo": "https://github.com/cline/cline",
+      "category": "Coding assistants",
+      "license": "Apache-2.0",
+      "config": "API Provider: OpenAI Compatible — Base URL, API Key, Model ID",
+      "needs": [
+        "chat_stream",
+        "tools_auto"
+      ],
+      "optional": [],
+      "verification": "protocol",
+      "status": "expected",
+      "failing": []
+    },
+    {
+      "name": "Kilo Code",
+      "repo": "https://github.com/Kilo-Org/kilocode",
+      "category": "Coding assistants",
+      "license": "MIT",
+      "config": "OpenAI Compatible provider",
+      "needs": [
+        "chat_stream",
+        "tools_auto"
+      ],
+      "optional": [],
+      "verification": "protocol",
+      "status": "expected",
+      "failing": []
+    },
+    {
+      "name": "OpenHands",
+      "repo": "https://github.com/OpenHands/OpenHands",
+      "category": "Coding assistants",
+      "license": "MIT",
+      "config": "LLM_BASE_URL + model openai/<id>",
+      "needs": [
+        "tools_auto",
+        "tool_roundtrip",
+        "chat_stream"
+      ],
+      "optional": [],
+      "verification": "protocol",
+      "status": "expected",
+      "failing": []
+    },
+    {
+      "name": "opencode",
+      "repo": "https://github.com/anomalyco/opencode",
+      "category": "Coding assistants",
+      "license": "MIT",
+      "config": "custom provider baseURL",
+      "needs": [
+        "tools_auto",
+        "tool_roundtrip",
+        "chat_stream"
+      ],
+      "optional": [],
+      "verification": "protocol",
+      "status": "expected",
+      "failing": []
+    },
+    {
+      "name": "Qwen Code",
+      "repo": "https://github.com/QwenLM/qwen-code",
+      "category": "Coding assistants",
+      "license": "Apache-2.0",
+      "config": "OPENAI_BASE_URL / OPENAI_API_KEY / OPENAI_MODEL",
+      "needs": [
+        "tools_auto",
+        "tool_roundtrip",
+        "chat_stream"
+      ],
+      "optional": [],
+      "verification": "protocol",
+      "status": "expected",
+      "failing": []
+    },
+    {
+      "name": "Codex CLI",
+      "repo": "https://github.com/openai/codex",
+      "category": "Coding assistants",
+      "license": "Apache-2.0",
+      "config": "config.toml model_providers.<x>.base_url + wire_api = \"chat\"",
+      "needs": [
+        "tools_auto",
+        "tool_roundtrip",
+        "chat_stream"
+      ],
+      "optional": [],
+      "verification": "protocol",
+      "note": "Set wire_api = \"chat\"; the default is the Responses API.",
+      "status": "expected",
+      "failing": []
+    },
+    {
+      "name": "Goose",
+      "repo": "https://github.com/block/goose",
+      "category": "Coding assistants",
+      "license": "Apache-2.0",
+      "config": "OpenAI provider OPENAI_HOST / OPENAI_BASE_PATH",
+      "needs": [
+        "tools_auto",
+        "tool_roundtrip",
+        "chat_stream"
+      ],
+      "optional": [],
+      "verification": "protocol",
+      "status": "expected",
+      "failing": []
+    },
+    {
+      "name": "Plandex",
+      "repo": "https://github.com/plandex-ai/plandex",
+      "category": "Coding assistants",
+      "license": "MIT",
+      "config": "custom OpenAI-compatible model base URL",
+      "needs": [
+        "tools_auto",
+        "tool_roundtrip"
+      ],
+      "optional": [],
+      "verification": "protocol",
+      "status": "expected",
+      "failing": []
+    },
+    {
+      "name": "gptme",
+      "repo": "https://github.com/gptme/gptme",
+      "category": "Coding assistants",
+      "license": "MIT",
+      "config": "OPENAI_BASE_URL",
+      "needs": [
+        "chat_stream"
+      ],
+      "optional": [
+        "tools_auto"
+      ],
+      "verification": "protocol",
+      "status": "expected",
+      "failing": []
+    },
+    {
+      "name": "bolt.diy",
+      "repo": "https://github.com/stackblitz-labs/bolt.diy",
+      "category": "Coding assistants",
+      "license": "MIT",
+      "config": "OpenAILike provider base URL",
+      "needs": [
+        "chat_stream"
+      ],
+      "optional": [],
+      "verification": "protocol",
+      "status": "expected",
+      "failing": []
+    },
+    {
+      "name": "LibreChat",
+      "repo": "https://github.com/danny-avila/LibreChat",
+      "category": "Chat UIs",
+      "license": "MIT",
+      "config": "librechat.yaml endpoints.custom baseURL + apiKey",
+      "needs": [
+        "models_list",
+        "chat_stream"
+      ],
+      "optional": [
+        "embeddings_list"
+      ],
+      "verification": "protocol",
+      "status": "expected",
+      "failing": []
+    },
+    {
+      "name": "NextChat",
+      "repo": "https://github.com/ChatGPTNextWeb/NextChat",
+      "category": "Chat UIs",
+      "license": "MIT",
+      "config": "BASE_URL + OPENAI_API_KEY (server-side proxy)",
+      "needs": [
+        "models_list",
+        "chat_stream"
+      ],
+      "optional": [],
+      "verification": "protocol",
+      "status": "expected",
+      "failing": []
+    },
+    {
+      "name": "Hugging Face Chat UI",
+      "repo": "https://github.com/huggingface/chat-ui",
+      "category": "Chat UIs",
+      "license": "Apache-2.0",
+      "config": "MODELS[].endpoints type openai, baseURL",
+      "needs": [
+        "models_list",
+        "chat_stream"
+      ],
+      "optional": [],
+      "verification": "protocol",
+      "status": "expected",
+      "failing": []
+    },
+    {
+      "name": "big-AGI",
+      "repo": "https://github.com/enricoros/big-AGI",
+      "category": "Chat UIs",
+      "license": "MIT",
+      "config": "OpenAI-compatible service with custom host",
+      "needs": [
+        "models_list",
+        "chat_stream"
+      ],
+      "optional": [],
+      "verification": "protocol",
+      "status": "expected",
+      "failing": []
+    },
+    {
+      "name": "Chatbot UI",
+      "repo": "https://github.com/mckaywrigley/chatbot-ui",
+      "category": "Chat UIs",
+      "license": "MIT",
+      "config": "custom base URL",
+      "needs": [
+        "models_list",
+        "chat_stream"
+      ],
+      "optional": [],
+      "verification": "protocol",
+      "status": "expected",
+      "failing": []
+    },
+    {
+      "name": "GPT4All",
+      "repo": "https://github.com/nomic-ai/gpt4all",
+      "category": "Chat UIs",
+      "license": "MIT",
+      "config": "remote OpenAI-compatible model: base URL, key, model",
+      "needs": [
+        "chat_basic"
+      ],
+      "optional": [],
+      "verification": "protocol",
+      "status": "expected",
+      "failing": []
+    },
+    {
+      "name": "RAGFlow",
+      "repo": "https://github.com/infiniflow/ragflow",
+      "category": "RAG & knowledge",
+      "license": "Apache-2.0",
+      "config": "model provider: OpenAI-API-Compatible, base URL",
+      "needs": [
+        "chat_basic",
+        "embeddings_list"
+      ],
+      "optional": [],
+      "verification": "protocol",
+      "status": "expected",
+      "failing": []
+    },
+    {
+      "name": "kotaemon",
+      "repo": "https://github.com/Cinnamon/kotaemon",
+      "category": "RAG & knowledge",
+      "license": "Apache-2.0",
+      "config": "OpenAI-compatible LLM + embedding base URL",
+      "needs": [
+        "chat_basic",
+        "embeddings_list"
+      ],
+      "optional": [],
+      "verification": "protocol",
+      "status": "expected",
+      "failing": []
+    },
+    {
+      "name": "GraphRAG",
+      "repo": "https://github.com/microsoft/graphrag",
+      "category": "RAG & knowledge",
+      "license": "MIT",
+      "config": "settings.yaml api_base for chat + embeddings",
+      "needs": [
+        "chat_basic",
+        "embeddings_list",
+        "json_mode"
+      ],
+      "optional": [],
+      "verification": "protocol",
+      "status": "expected",
+      "failing": []
+    },
+    {
+      "name": "LightRAG",
+      "repo": "https://github.com/HKUDS/LightRAG",
+      "category": "RAG & knowledge",
+      "license": "MIT",
+      "config": "openai_complete_if_cache(base_url=...) + openai_embed(base_url=...)",
+      "needs": [
+        "chat_basic",
+        "embeddings_list"
+      ],
+      "optional": [],
+      "verification": "protocol",
+      "status": "expected",
+      "failing": []
+    },
+    {
+      "name": "GPT Researcher",
+      "repo": "https://github.com/assafelovic/gpt-researcher",
+      "category": "RAG & knowledge",
+      "license": "Apache-2.0",
+      "config": "OPENAI_BASE_URL + FAST_LLM/SMART_LLM openai:<id>",
+      "needs": [
+        "chat_basic",
+        "embeddings_list"
+      ],
+      "optional": [],
+      "verification": "protocol",
+      "status": "expected",
+      "failing": []
+    },
+    {
+      "name": "DocsGPT",
+      "repo": "https://github.com/arc53/DocsGPT",
+      "category": "RAG & knowledge",
+      "license": "MIT",
+      "config": "OPENAI_BASE_URL",
+      "needs": [
+        "chat_basic",
+        "embeddings_list"
+      ],
+      "optional": [],
+      "verification": "protocol",
+      "status": "expected",
+      "failing": []
+    },
+    {
+      "name": "Langflow",
+      "repo": "https://github.com/langflow-ai/langflow",
+      "category": "Workflow builders",
+      "license": "MIT",
+      "config": "OpenAI component: OpenAI API Base",
+      "needs": [
+        "chat_basic"
+      ],
+      "optional": [
+        "tools_auto"
+      ],
+      "verification": "protocol",
+      "status": "expected",
+      "failing": []
+    },
+    {
+      "name": "DB-GPT",
+      "repo": "https://github.com/eosphoros-ai/DB-GPT",
+      "category": "Workflow builders",
+      "license": "MIT",
+      "config": "proxy LLM base URL",
+      "needs": [
+        "chat_basic"
+      ],
+      "optional": [
+        "embeddings_list"
+      ],
+      "verification": "protocol",
+      "status": "expected",
+      "failing": []
+    },
+    {
+      "name": "promptfoo",
+      "repo": "https://github.com/promptfoo/promptfoo",
+      "category": "Evaluation & red-teaming",
+      "license": "MIT",
+      "config": "provider openai:chat:<id> with config.apiBaseUrl",
+      "needs": [
+        "chat_basic"
+      ],
+      "optional": [
+        "json_mode",
+        "tools_auto"
+      ],
+      "verification": "protocol",
+      "status": "expected",
+      "failing": []
+    },
+    {
+      "name": "garak",
+      "repo": "https://github.com/NVIDIA/garak",
+      "category": "Evaluation & red-teaming",
+      "license": "Apache-2.0",
+      "config": "OpenAI-compatible generator with custom uri",
+      "needs": [
+        "chat_basic"
+      ],
+      "optional": [],
+      "verification": "protocol",
+      "status": "expected",
+      "failing": []
+    },
+    {
+      "name": "PyRIT",
+      "repo": "https://github.com/microsoft/PyRIT",
+      "category": "Evaluation & red-teaming",
+      "license": "MIT",
+      "config": "OpenAIChatTarget(endpoint=..., api_key=...)",
+      "needs": [
+        "chat_basic"
+      ],
+      "optional": [],
+      "verification": "protocol",
+      "status": "expected",
+      "failing": []
+    },
+    {
+      "name": "DeepEval",
+      "repo": "https://github.com/confident-ai/deepeval",
+      "category": "Evaluation & red-teaming",
+      "license": "Apache-2.0",
+      "config": "custom OpenAI base URL model",
+      "needs": [
+        "chat_basic"
+      ],
+      "optional": [
+        "json_mode"
+      ],
+      "verification": "protocol",
+      "status": "expected",
+      "failing": []
+    },
+    {
+      "name": "Ragas",
+      "repo": "https://github.com/vibrantlabsai/ragas",
+      "category": "Evaluation & red-teaming",
+      "license": "Apache-2.0",
+      "config": "wrap a LangChain ChatOpenAI(base_url=...)",
+      "needs": [
+        "chat_basic",
+        "embeddings_list"
+      ],
+      "optional": [],
+      "verification": "protocol",
+      "status": "expected",
+      "failing": []
+    },
+    {
+      "name": "Inspect",
+      "repo": "https://github.com/UKGovernmentBEIS/inspect_ai",
+      "category": "Evaluation & red-teaming",
+      "license": "MIT",
+      "config": "--model openai-api/<id> with OPENAI_BASE_URL",
+      "needs": [
+        "chat_basic"
+      ],
+      "optional": [
+        "tools_auto"
+      ],
+      "verification": "protocol",
+      "status": "expected",
+      "failing": []
+    },
+    {
+      "name": "lm-evaluation-harness",
+      "repo": "https://github.com/EleutherAI/lm-evaluation-harness",
+      "category": "Evaluation & red-teaming",
+      "license": "MIT",
+      "config": "--model local-chat-completions --model_args base_url=...",
+      "needs": [
+        "chat_basic"
+      ],
+      "optional": [],
+      "verification": "protocol",
+      "status": "expected",
+      "failing": []
+    },
+    {
+      "name": "Giskard",
+      "repo": "https://github.com/Giskard-AI/giskard-oss",
+      "category": "Evaluation & red-teaming",
+      "license": "Apache-2.0",
+      "config": "OpenAI-compatible client base URL",
+      "needs": [
+        "chat_basic"
+      ],
+      "optional": [],
+      "verification": "protocol",
+      "status": "expected",
+      "failing": []
+    },
+    {
+      "name": "Guardrails",
+      "repo": "https://github.com/guardrails-ai/guardrails",
+      "category": "Evaluation & red-teaming",
+      "license": "Apache-2.0",
+      "config": "model='openai/<id>', api_base=...",
+      "needs": [
+        "chat_basic"
+      ],
+      "optional": [],
+      "verification": "protocol",
+      "status": "expected",
+      "failing": []
+    },
+    {
+      "name": "agentic-radar",
+      "repo": "https://github.com/splx-ai/agentic-radar",
+      "category": "Evaluation & red-teaming",
+      "license": "Apache-2.0",
+      "config": "OpenAI base URL",
+      "needs": [
+        "chat_basic"
+      ],
+      "optional": [],
+      "verification": "protocol",
+      "status": "expected",
+      "failing": []
+    },
+    {
+      "name": "Agentic Security",
+      "repo": "https://github.com/msoedov/agentic_security",
+      "category": "Evaluation & red-teaming",
+      "license": "Apache-2.0",
+      "config": "target URL of an OpenAI-compatible endpoint",
+      "needs": [
+        "chat_basic"
+      ],
+      "optional": [],
+      "verification": "protocol",
+      "status": "expected",
+      "failing": []
+    },
+    {
+      "name": "Prompt Fuzzer",
+      "repo": "https://github.com/prompt-security/ps-fuzz",
+      "category": "Evaluation & red-teaming",
+      "license": "MIT",
+      "config": "OpenAI base URL",
+      "needs": [
+        "chat_basic"
+      ],
+      "optional": [],
+      "verification": "protocol",
+      "status": "expected",
+      "failing": []
+    },
+    {
+      "name": "SOC triage agent",
+      "repo": "https://github.com/Software-Tailor/ai-server-security-agents",
+      "category": "Cybersecurity",
+      "license": "MIT",
+      "config": "AISERVER_BASE_URL / AISERVER_API_KEY / AISERVER_MODEL",
+      "needs": [
+        "tools_auto",
+        "tool_roundtrip"
+      ],
+      "optional": [],
+      "verification": "verified",
+      "evidence": "https://github.com/Software-Tailor/ai-server-security-agents",
+      "status": "verified",
+      "failing": []
+    },
+    {
+      "name": "PentestGPT",
+      "repo": "https://github.com/GreyDGL/PentestGPT",
+      "category": "Cybersecurity",
+      "license": "MIT",
+      "config": "OpenAI-compatible base URL",
+      "needs": [
+        "chat_stream"
+      ],
+      "optional": [],
+      "verification": "protocol",
+      "note": "Authorised targets only.",
+      "status": "expected",
+      "failing": []
+    },
+    {
+      "name": "PentAGI",
+      "repo": "https://github.com/vxcontrol/pentagi",
+      "category": "Cybersecurity",
+      "license": "MIT",
+      "config": "custom OpenAI-compatible LLM provider URL",
+      "needs": [
+        "tools_auto",
+        "tool_roundtrip"
+      ],
+      "optional": [],
+      "verification": "protocol",
+      "note": "Authorised targets only.",
+      "status": "expected",
+      "failing": []
+    },
+    {
+      "name": "Strix",
+      "repo": "https://github.com/usestrix/strix",
+      "category": "Cybersecurity",
+      "license": "Apache-2.0",
+      "config": "LLM_API_BASE + model openai/<id>",
+      "needs": [
+        "tools_auto",
+        "tool_roundtrip"
+      ],
+      "optional": [],
+      "verification": "protocol",
+      "note": "Authorised targets only.",
+      "status": "expected",
+      "failing": []
+    },
+    {
+      "name": "hackingBuddyGPT",
+      "repo": "https://github.com/ipa-lab/hackingBuddyGPT",
+      "category": "Cybersecurity",
+      "license": "MIT",
+      "config": "llm.api_url",
+      "needs": [
+        "chat_basic"
+      ],
+      "optional": [],
+      "verification": "protocol",
+      "note": "Authorised targets only.",
+      "status": "expected",
+      "failing": []
+    },
+    {
+      "name": "MCP Scanner",
+      "repo": "https://github.com/cisco-ai-defense/mcp-scanner",
+      "category": "Cybersecurity",
+      "license": "Apache-2.0",
+      "config": "LLM analyzer base URL",
+      "needs": [
+        "chat_basic"
+      ],
+      "optional": [],
+      "verification": "protocol",
+      "status": "expected",
+      "failing": []
+    },
+    {
+      "name": "llm (Simon Willison)",
+      "repo": "https://github.com/simonw/llm",
+      "category": "Command line",
+      "license": "Apache-2.0",
+      "config": "extra-openai-models.yaml api_base",
+      "needs": [
+        "chat_stream"
+      ],
+      "optional": [
+        "embeddings_list"
+      ],
+      "verification": "protocol",
+      "status": "expected",
+      "failing": []
+    },
+    {
+      "name": "aichat",
+      "repo": "https://github.com/sigoden/aichat",
+      "category": "Command line",
+      "license": "Apache-2.0",
+      "config": "config.yaml type openai-compatible, api_base",
+      "needs": [
+        "chat_stream"
+      ],
+      "optional": [
+        "tools_auto"
+      ],
+      "verification": "protocol",
+      "status": "expected",
+      "failing": []
+    },
+    {
+      "name": "Shell GPT",
+      "repo": "https://github.com/TheR1D/shell_gpt",
+      "category": "Command line",
+      "license": "MIT",
+      "config": "API_BASE_URL",
+      "needs": [
+        "chat_stream"
+      ],
+      "optional": [],
+      "verification": "protocol",
+      "status": "expected",
+      "failing": []
+    },
+    {
+      "name": "Open Interpreter",
+      "repo": "https://github.com/openinterpreter/openinterpreter",
+      "category": "Command line",
+      "license": "Apache-2.0",
+      "config": "--api_base",
+      "needs": [
+        "chat_stream"
+      ],
+      "optional": [],
+      "verification": "protocol",
+      "status": "expected",
+      "failing": []
+    },
+    {
+      "name": "Portkey Gateway",
+      "repo": "https://github.com/Portkey-AI/gateway",
+      "category": "Observability & gateways",
+      "license": "MIT",
+      "config": "custom provider customHost",
+      "needs": [
+        "chat_basic",
+        "chat_stream"
+      ],
+      "optional": [
+        "stream_usage"
+      ],
+      "verification": "protocol",
+      "status": "expected",
+      "failing": []
+    },
+    {
+      "name": "Helicone",
+      "repo": "https://github.com/Helicone/helicone",
+      "category": "Observability & gateways",
+      "license": "Apache-2.0",
+      "config": "proxy base_url",
+      "needs": [
+        "chat_basic"
+      ],
+      "optional": [
+        "stream_usage"
+      ],
+      "verification": "protocol",
+      "status": "expected",
+      "failing": []
+    },
+    {
+      "name": "Opik",
+      "repo": "https://github.com/comet-ml/opik",
+      "category": "Observability & gateways",
+      "license": "Apache-2.0",
+      "config": "track an OpenAI client with base_url",
+      "needs": [
+        "chat_basic"
+      ],
+      "optional": [],
+      "verification": "protocol",
+      "status": "expected",
+      "failing": []
+    },
+    {
+      "name": "OpenLLMetry",
+      "repo": "https://github.com/traceloop/openllmetry",
+      "category": "Observability & gateways",
+      "license": "Apache-2.0",
+      "config": "instruments the OpenAI SDK",
+      "needs": [
+        "chat_basic"
+      ],
+      "optional": [
+        "stream_usage"
+      ],
+      "verification": "protocol",
+      "status": "expected",
+      "failing": []
+    },
+    {
+      "name": "MarkItDown",
+      "repo": "https://github.com/microsoft/markitdown",
+      "category": "Data & documents",
+      "license": "MIT",
+      "config": "llm_client=OpenAI(base_url=...) for image captions",
+      "needs": [
+        "chat_basic"
+      ],
+      "optional": [],
+      "verification": "protocol",
+      "status": "expected",
+      "failing": []
+    },
+    {
+      "name": "Docling",
+      "repo": "https://github.com/docling-project/docling",
+      "category": "Data & documents",
+      "license": "MIT",
+      "config": "VLM options with OpenAI-compatible URL",
+      "needs": [
+        "chat_basic"
+      ],
+      "optional": [],
+      "verification": "protocol",
+      "status": "expected",
+      "failing": []
+    },
+    {
+      "name": "Marker",
+      "repo": "https://github.com/datalab-to/marker",
+      "category": "Data & documents",
+      "license": "Apache-2.0",
+      "config": "LLM service base URL",
+      "needs": [
+        "chat_basic"
+      ],
+      "optional": [],
+      "verification": "protocol",
+      "status": "expected",
+      "failing": []
+    },
+    {
+      "name": "paperless-gpt",
+      "repo": "https://github.com/icereed/paperless-gpt",
+      "category": "Data & documents",
+      "license": "MIT",
+      "config": "OPENAI_BASE_URL",
+      "needs": [
+        "chat_basic"
+      ],
+      "optional": [],
+      "verification": "protocol",
+      "status": "expected",
+      "failing": []
+    },
+    {
+      "name": "Presenton",
+      "repo": "https://github.com/presenton/presenton",
+      "category": "Data & documents",
+      "license": "Apache-2.0",
+      "config": "custom OpenAI-compatible URL",
+      "needs": [
+        "chat_stream"
+      ],
+      "optional": [],
+      "verification": "protocol",
+      "status": "expected",
+      "failing": []
+    },
+    {
+      "name": "browser-use",
+      "repo": "https://github.com/browser-use/browser-use",
+      "category": "Browser automation",
+      "license": "MIT",
+      "config": "ChatOpenAI(base_url=...)",
+      "needs": [
+        "tools_auto",
+        "tool_roundtrip"
+      ],
+      "optional": [],
+      "verification": "protocol",
+      "status": "expected",
+      "failing": []
+    },
+    {
+      "name": "Stagehand",
+      "repo": "https://github.com/browserbase/stagehand",
+      "category": "Browser automation",
+      "license": "MIT",
+      "config": "modelClientOptions.baseURL",
+      "needs": [
+        "tools_auto",
+        "tool_roundtrip"
+      ],
+      "optional": [],
+      "verification": "protocol",
+      "status": "expected",
+      "failing": []
+    }
+  ],
+  "caution": [
+    {
+      "name": "Open WebUI",
+      "repo": "https://github.com/open-webui/open-webui",
+      "license": "Open WebUI License (BSD-3 + branding clause)",
+      "note": "Works (config in ai-server-dropin-recipes); the licence restricts rebranding, so check it before redistributing a customised build."
+    },
+    {
+      "name": "Dify",
+      "repo": "https://github.com/langgenius/dify",
+      "license": "Modified Apache-2.0",
+      "note": "Restricts multi-tenant SaaS use; read before commercial deployment."
+    },
+    {
+      "name": "LiteLLM",
+      "repo": "https://github.com/BerriAI/litellm",
+      "license": "MIT core + enterprise directory",
+      "note": "Core is MIT; enterprise features are separately licensed."
+    },
+    {
+      "name": "Flowise",
+      "repo": "https://github.com/FlowiseAI/Flowise",
+      "license": "Apache-2.0 + commercial terms for some parts",
+      "note": "Check the current licence file."
+    },
+    {
+      "name": "Langfuse",
+      "repo": "https://github.com/langfuse/langfuse",
+      "license": "MIT core + EE directory",
+      "note": "Enterprise directory is not MIT."
+    },
+    {
+      "name": "Arize Phoenix",
+      "repo": "https://github.com/Arize-ai/phoenix",
+      "license": "Elastic License 2.0",
+      "note": "Source-available; not for managed-service resale."
+    },
+    {
+      "name": "Lobe Chat",
+      "repo": "https://github.com/lobehub/lobe-chat",
+      "license": "Custom (Apache-2.0 based)",
+      "note": "Commercial-use conditions apply."
+    },
+    {
+      "name": "Jan",
+      "repo": "https://github.com/janhq/jan",
+      "license": "Check current licence",
+      "note": "Licence has changed over time."
+    }
+  ]
+}
