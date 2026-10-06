@@ -1,6 +1,6 @@
 # Works with AI Server
 
-**[Software Tailor AI Server](https://softwaretailor.com/docs/ai-server/index.htm)** speaks the OpenAI API, so
+**[Software Tailor AI Server](https://softwaretailor.com/docs/ai-server/)** speaks the OpenAI API, so
 tools with an "OpenAI-compatible base URL" setting can use models running on your own hardware. This repo
 answers the practical question, **"will *my* tool work?"**, with evidence instead of adjectives:
 
@@ -37,7 +37,7 @@ how an entry moves from 🟢 to ✅.
 | `stream_options.include_usage` | ❌ → **fixed for the next release** (final usage chunk before `[DONE]`) |
 | Embedding models listed in `/v1/models` | ❌ usable but not listed |
 | Responses API (`/v1/responses`) | ❌ not implemented, so use Chat Completions mode |
-| CORS for browser-only apps | ❌ by design, so use a same-origin proxy |
+| CORS for browser-only apps | ❌ by default; operators can allow origins with `AISUITE_CORS_ORIGINS`, otherwise use a same-origin proxy |
 
 These results are the AI Server team's own to-do list, and they're published so you can plan around them.
 Also fixed for the next release: model listing no longer counts against the Free-tier request allowance.

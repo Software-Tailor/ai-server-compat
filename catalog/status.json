@@ -57,7 +57,7 @@
     },
     "cors": {
       "status": "fail",
-      "reason": "no CORS (HTTP 405); browser-only apps need a proxy"
+      "reason": "no CORS by default (HTTP 405); set AISUITE_CORS_ORIGINS on the server or use a same-origin proxy"
     }
   },
   "projects": [

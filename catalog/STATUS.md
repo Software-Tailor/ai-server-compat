@@ -23,7 +23,7 @@ Status meanings: **Verified** = run end to end against AI Server by us (evidence
 | `embed_model_listed` | ❌ | embedding model not listed in /v1/models |
 | `responses_api` | ❌ | HTTP 404 (Responses API not available) |
 | `error_shape` | ✅ | HTTP 503 with OpenAI error envelope |
-| `cors` | ❌ | no CORS (HTTP 405); browser-only apps need a proxy |
+| `cors` | ❌ | no CORS by default (HTTP 405); set AISUITE_CORS_ORIGINS on the server or use a same-origin proxy |
 
 ## SDK & frameworks
 
